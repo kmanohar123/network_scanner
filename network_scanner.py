@@ -1,4 +1,14 @@
 import scapy.all as scapy 
+import optparse
+
+def get_arguments():
+	parser=optparse.OptionParser()
+	parser.add_option("-r", "--range", dest="ip", help="provide a single/range of ip address")
+	(options, arguments) = parser.parse_args()
+	if not options.ip():
+		parser.error("Please specify a single/range of ip address, Use --help for more info")
+	return options
+
 
 def scan(ip):
 	arp_request = scapy.ARP(pdst=ip)
@@ -11,5 +21,6 @@ def scan(ip):
         for element in answered_list:
                  
         	print(element[1].psrc + "\t\t" + element[1].hwsrc)
+values = get_arguments
                 
-scan("10.0.2.1/24")
+scan(values.ip)
